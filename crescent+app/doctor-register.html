@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crescent+ | Doctor Registration</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+    <style>
+        /* অতিরিক্ত স্টাইল – শুধু প্রোফাইল পিকচার সেন্টার ও ক্যামেরা ফিক্সের জন্য */
+        .doctor-register-container {
+            background-color: #faf8f6 !important;
+        }
+
+        .profile-pic-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+        }
+
+        .profile-pic-wrapper .preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2c3e50, #1a252f);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(44, 62, 80, 0.15);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+            margin: 0 auto;
+        }
+
+        .profile-pic-wrapper .preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-pic-wrapper .camera-icon {
+            position: absolute;
+            bottom: 2px;
+            right: 2px;
+            background: #2c3e50;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            border: 2px solid #faf8f6;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 2;
+        }
+
+        .profile-pic-wrapper .camera-icon:hover {
+            background: #1a252f;
+            transform: scale(1.1);
+        }
+
+        .profile-pic-wrapper .preview:hover {
+            transform: scale(1.02);
+        }
+
+        .profile-pic-wrapper .upload-btn {
+            background: rgba(0, 0, 0, 0.04);
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 2px solid #e8edf2;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            color: #2c3e50;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin: 0 auto;
+        }
+
+        .profile-pic-wrapper .upload-btn:hover {
+            background: rgba(52, 152, 219, 0.06);
+            border-color: #3498db;
+            color: #3498db;
+            transform: scale(1.02);
+        }
+
+        .hint {
+            display: block;
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+            text-align: center;
+        }
+
+        @media (max-width: 480px) {
+            .profile-pic-wrapper .preview {
+                width: 80px;
+                height: 80px;
+                font-size: 32px;
+            }
+            .profile-pic-wrapper .camera-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 12px;
+                bottom: 1px;
+                right: 1px;
+            }
+            .profile-pic-wrapper .upload-btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="doctor-register-container">
+        <div class="doctor-register-header">
+            <button class="back-btn" onclick="window.location.href='dashboard.html'">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h2><i class="fas fa-user-md" style="color:#3498db;"></i> Doctor Registration</h2>
+            <div style="width:40px;"></div>
+        </div>
+        <p class="sub-info">Join as a doctor or intern. <strong>No approval needed</strong> – you will appear instantly!</p>
+
+        <form id="doctorRegisterForm">
+            <!-- ✅ প্রোফাইল পিকচার – ক্যামেরা আইকন আলাদা স্প্যান হিসেবে যোগ করা হয়েছে -->
+            <div class="form-group">
+                <label>Profile Picture</label>
+                <div class="profile-pic-wrapper">
+                    <div class="preview" id="doctorPicPreview"><i class="fas fa-user-md"></i></div>
+                   
+                    <button type="button" class="upload-btn" onclick="document.getElementById('doctorPicInput').click();">
+                        <i class="fas fa-upload"></i> Upload
+                    </button>
+                    <input type="file" id="doctorPicInput" accept="image/*" style="display:none;" />
+                </div>
+                <small class="hint">Upload a professional photo (optional)</small>
+            </div>
+
+            <!-- বাকি ফর্ম ফিল্ড -->
+            <div class="form-group">
+                <label>Full Name <span class="required">*</span></label>
+                <input type="text" id="docName" placeholder="Dr. Full Name" required />
+            </div>
+
+            <div class="form-group">
+                <label>Registration Type <span class="required">*</span></label>
+                <select id="docType" required>
+                    <option value="bmdc">🛡️ BMDC Registered Doctor</option>
+                    <option value="intern">📘 Medical Intern / Student</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Specialty / Subject <span class="required">*</span></label>
+                <select id="docSpecialty" required>
+                    <option value="">Select Specialty</option>
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Neurology">Neurology</option>
+                    <option value="Orthopedics">Orthopedics</option>
+                    <option value="Pediatrics">Pediatrics</option>
+                    <option value="Gynecology">Gynecology</option>
+                    <option value="General Medicine">General Medicine</option>
+                    <option value="Dermatology">Dermatology</option>
+                    <option value="ENT">ENT</option>
+                    <option value="Ophthalmology">Ophthalmology</option>
+                    <option value="Psychiatry">Psychiatry</option>
+                    <option value="Dentistry">Dentistry</option>
+                    <option value="Urology">Urology</option>
+                    <option value="Nephrology">Nephrology</option>
+                    <option value="Oncology">Oncology</option>
+                    <option value="Radiology">Radiology</option>
+                    <option value="Anesthesiology">Anesthesiology</option>
+                    <option value="Pathology">Pathology</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Degrees / Qualifications <span class="required">*</span></label>
+                <input type="text" id="docDegree" placeholder="e.g., MBBS, MD (Cardiology), FACC" required />
+            </div>
+
+            <div class="form-group" id="bmdcGroup">
+                <label>BMDC Registration Number <span class="required" id="bmdcRequired">*</span></label>
+                <input type="text" id="docBmdc" placeholder="e.g., A-12345" />
+                <small class="hint">Required for BMDC doctors, optional for interns.</small>
+            </div>
+
+            <div class="form-group">
+                <label>Medical College <span class="required">*</span></label>
+                <select id="docCollege" required>
+                    <option value="">Select Your Medical College</option>
+                    <option value="Dhaka Medical College">Dhaka Medical College</option>
+                    <option value="Sir Salimullah Medical College">Sir Salimullah Medical College</option>
+                    <option value="Chittagong Medical College">Chittagong Medical College</option>
+                    <option value="Rajshahi Medical College">Rajshahi Medical College</option>
+                    <option value="Sylhet Medical College">Sylhet Medical College</option>
+                    <option value="Khulna Medical College">Khulna Medical College</option>
+                    <option value="Mymensingh Medical College">Mymensingh Medical College</option>
+                    <option value="Rangpur Medical College">Rangpur Medical College</option>
+                    <option value="Barisal Medical College">Barisal Medical College</option>
+                    <option value="Shaheed Suhrawardy Medical College">Shaheed Suhrawardy Medical College</option>
+                    <option value="Community Based Medical College">Community Based Medical College</option>
+                    <option value="Enam Medical College">Enam Medical College</option>
+                    <option value="Green Life Medical College">Green Life Medical College</option>
+                    <option value="International Medical College">International Medical College</option>
+                    <option value="Popular Medical College">Popular Medical College</option>
+                    <option value="Bangladesh Medical College">Bangladesh Medical College</option>
+                    <option value="Holy Family Red Crescent Medical College">Holy Family Red Crescent Medical College</option>
+                    <option value="Z.H. Sikder Medical College">Z.H. Sikder Medical College</option>
+                    <option value="Ad-din Medical College">Ad-din Medical College</option>
+                    <option value="Monno Medical College">Monno Medical College</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Student / Registration ID <span class="required">*</span></label>
+                <input type="text" id="docStudentId" placeholder="e.g., 2024-01-001 or A-12345" required />
+                <small class="hint">Your unique college ID or BMDC number (for verification).</small>
+            </div>
+
+            <div class="form-group">
+                <label>Chamber / Hospital Address <span class="required">*</span></label>
+                <input type="text" id="docChamber" placeholder="e.g., National Heart Institute, Dhaka" required />
+            </div>
+
+            <div class="form-group">
+                <label>City <span class="required">*</span></label>
+                <select id="docLocation" required>
+                    <option value="">Select City</option>
+                    <option value="Dhaka">Dhaka</option>
+                    <option value="Chittagong">Chittagong</option>
+                    <option value="Sylhet">Sylhet</option>
+                    <option value="Khulna">Khulna</option>
+                    <option value="Rajshahi">Rajshahi</option>
+                    <option value="Barisal">Barisal</option>
+                    <option value="Rangpur">Rangpur</option>
+                    <option value="Mymensingh">Mymensingh</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Phone Number <span class="required">*</span></label>
+                <input type="tel" id="docPhone" placeholder="01XXXXXXXXX" required />
+            </div>
+
+            <div class="form-group">
+                <label>Consultation Fee (BDT) <span class="required">*</span></label>
+                <input type="number" id="docFee" placeholder="e.g., 800" min="0" required />
+            </div>
+
+            <div class="form-group">
+                <label>Currently Available?</label>
+                <div style="display:flex; gap:20px; margin-top:6px;">
+                    <label><input type="radio" name="docAvailable" value="true" checked /> Yes</label>
+                    <label><input type="radio" name="docAvailable" value="false" /> No</label>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> Register</button>
+            <button type="button" class="cancel-btn" onclick="window.location.href='dashboard.html'" style="margin-top:10px;">Cancel</button>
+        </form>
+    </div>
+
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/doctor-register.js"></script>
+    <script src="js/scale.js"></script>
+</body>
+</html>

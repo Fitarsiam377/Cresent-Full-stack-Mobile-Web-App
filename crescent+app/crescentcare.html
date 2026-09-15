@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crescent+ | Crescent Care</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+</head>
+<body>
+    <div class="care-container">
+
+        <div class="care-header">
+            <div class="care-brand">
+                <img src="assets/Crescentlogo.png" alt="Crescent+" />
+                <span class="brand-text">Crescent<span class="plus">+</span></span>
+                <span class="care-badge">Care</span>
+            </div>
+            <button class="care-back-btn" onclick="window.location.href='dashboard.html'">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+        </div>
+
+        <div class="care-title-section">
+            <h1><i class="fas fa-user-md"></i> Find Doctors</h1>
+            <p>Consult verified doctors from Bangladesh</p>
+        </div>
+
+        <button class="care-register-btn" onclick="window.location.href='doctor-register.html'">
+            <i class="fas fa-user-plus"></i> Become a Doctor
+        </button>
+
+        <div class="care-search-area">
+            <div class="care-search-row">
+                <div class="care-search-input-wrapper">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="docSearch" placeholder="Search by name, specialty..." />
+                </div>
+                <button class="care-search-btn" onclick="filterDoctors()">Search</button>
+            </div>
+            <div class="care-filter-row">
+                <select id="docSpecialtyFilter">
+                    <option value="">All Specialties</option>
+                    <option value="Cardiology">Cardiology</option>
+                    <option value="Neurology">Neurology</option>
+                    <option value="Orthopedics">Orthopedics</option>
+                    <option value="Pediatrics">Pediatrics</option>
+                    <option value="Gynecology">Gynecology</option>
+                    <option value="General Medicine">General Medicine</option>
+                    <option value="Dermatology">Dermatology</option>
+                    <option value="ENT">ENT</option>
+                    <option value="Ophthalmology">Ophthalmology</option>
+                    <option value="Psychiatry">Psychiatry</option>
+                </select>
+                <select id="docLocationFilter">
+                    <option value="">All Locations</option>
+                    <option value="Dhaka">Dhaka</option>
+                    <option value="Chittagong">Chittagong</option>
+                    <option value="Sylhet">Sylhet</option>
+                    <option value="Khulna">Khulna</option>
+                    <option value="Rajshahi">Rajshahi</option>
+                    <option value="Barisal">Barisal</option>
+                    <option value="Rangpur">Rangpur</option>
+                    <option value="Mymensingh">Mymensingh</option>
+                </select>
+                <button class="care-filter-reset" onclick="resetFilters()">
+                    <i class="fas fa-undo"></i> Reset
+                </button>
+            </div>
+        </div>
+
+        <div class="care-results-count" id="resultsCount">Loading...</div>
+
+        <!-- ✅ কোনো স্পিনার নেই – শুধু খালি কন্টেইনার, JS স্কেলেটন বসাবে -->
+        <div id="doctorListContainer" class="care-doctor-grid"></div>
+
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/crescentcare.js"></script>
+    <script src="js/scale.js"></script>
+</body>
+</html>

@@ -1,0 +1,359 @@
+/* ============================================
+   ADMIN PANEL - DASHBOARD STYLE
+   ============================================ */
+
+.admin-container {
+    max-width: 480px;
+    width: 100%;
+    background: #faf8f6;
+    border-radius: 28px;
+    padding: 24px 20px 28px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    min-height: 90vh;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ===== HEADER WITH LOGO ===== */
+.admin-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+    flex-shrink: 0;
+}
+
+.admin-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.admin-brand img {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+}
+.admin-brand .brand-text {
+    font-size: 20px;
+    font-weight: 800;
+    color: #2c3e50;
+}
+.admin-brand .brand-text .plus {
+    color: #e74c3c;
+}
+.admin-badge {
+    background: #c0392b;
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 12px;
+    border-radius: 30px;
+    letter-spacing: 0.5px;
+    margin-left: 2px;
+    text-transform: uppercase;
+}
+
+.admin-back-btn {
+    background: rgba(0,0,0,0.04);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 20px;
+    color: #2c3e50;
+    cursor: pointer;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.admin-back-btn:hover {
+    background: rgba(0,0,0,0.08);
+    transform: rotate(90deg);
+}
+
+/* ===== STATS ===== */
+.admin-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+.stat-box {
+    background: white;
+    border-radius: 16px;
+    padding: 14px 10px;
+    text-align: center;
+    border: 1px solid #f0edea;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+.stat-box .number {
+    font-size: 28px;
+    font-weight: 800;
+    color: #2c3e50;
+    line-height: 1.2;
+}
+.stat-box .label {
+    font-size: 12px;
+    color: #888;
+    margin-top: 2px;
+}
+
+/* ===== TABS – FULL WIDTH BUTTONS ===== */
+.admin-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 4px;
+}
+.admin-tabs button {
+    flex: 1;
+    padding: 14px 8px;
+    border: none;
+    border-radius: 50px;
+    background: #eef2f7;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+    color: #555;
+    white-space: nowrap;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+}
+.admin-tabs button.active {
+    background: #2c3e50;
+    color: white;
+    box-shadow: 0 4px 15px rgba(44,62,80,0.25);
+}
+.admin-tabs button i {
+    margin-right: 6px;
+}
+.admin-tabs button:hover:not(.active) {
+    background: #dde1e6;
+    transform: translateY(-1px);
+}
+
+/* ===== LIST ===== */
+.admin-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    flex: 1;
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+.admin-list::-webkit-scrollbar {
+    width: 4px;
+}
+.admin-list::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 10px;
+}
+.admin-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.admin-loading {
+    text-align: center;
+    padding: 40px 0;
+    color: #999;
+}
+.admin-loading i {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 10px;
+}
+
+/* ===== CARD ===== */
+.admin-card {
+    background: white;
+    border-radius: 18px;
+    padding: 14px 16px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+    border: 1px solid #f0edea;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: 0.2s;
+}
+.admin-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.admin-card .avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #2c3e50;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 20px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+.admin-card .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.admin-card .info {
+    flex: 1;
+    min-width: 0;
+}
+.admin-card .info .name {
+    font-weight: 700;
+    color: #2c3e50;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
+}
+.admin-card .info .detail {
+    font-size: 13px;
+    color: #888;
+    margin-top: 1px;
+}
+.admin-card .info .badge {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 10px;
+    border-radius: 30px;
+    font-weight: 700;
+    margin-left: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+.badge.verified {
+    background: #e8f8f0;
+    color: #1a9e5e;
+}
+.badge.pending {
+    background: #fef3e2;
+    color: #d68910;
+}
+.badge.admin {
+    background: #fde8e8;
+    color: #c0392b;
+}
+.badge.donor {
+    background: #e8f0fe;
+    color: #2980b9;
+}
+
+/* ===== ACTION BUTTONS (Verify, Delete, etc.) ===== */
+.admin-card .actions {
+    display: flex;
+    gap: 6px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+.admin-card .actions button {
+    padding: 8px 18px;
+    border: none;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+    white-space: nowrap;
+    min-width: 70px;
+    justify-content: center;
+}
+.admin-card .actions .btn-verify {
+    background: linear-gradient(135deg, #27ae60, #1e8449);
+    color: white;
+    box-shadow: 0 4px 15px rgba(39,174,96,0.3);
+}
+.admin-card .actions .btn-verify:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(39,174,96,0.4);
+}
+.admin-card .actions .btn-unverify {
+    background: linear-gradient(135deg, #f39c12, #d68910);
+    color: white;
+    box-shadow: 0 4px 15px rgba(243,156,18,0.3);
+}
+.admin-card .actions .btn-unverify:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(243,156,18,0.4);
+}
+.admin-card .actions .btn-delete {
+    background: linear-gradient(135deg, #e74c3c, #c0392b);
+    color: white;
+    box-shadow: 0 4px 15px rgba(231,76,60,0.3);
+}
+.admin-card .actions .btn-delete:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(231,76,60,0.4);
+}
+
+/* ===== NO DATA ===== */
+.no-data {
+    text-align: center;
+    padding: 40px 0;
+    color: #999;
+}
+.no-data i {
+    font-size: 48px;
+    display: block;
+    margin-bottom: 12px;
+    color: #ddd;
+}
+.no-data p {
+    font-size: 16px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+    .admin-container {
+        border-radius: 0;
+        padding: 16px 14px 20px;
+        min-height: 100vh;
+        box-shadow: none;
+        max-width: 100%;
+    }
+    .admin-stats {
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 6px;
+    }
+    .stat-box .number {
+        font-size: 22px;
+    }
+    .admin-tabs button {
+        font-size: 12px;
+        padding: 12px 4px;
+    }
+    .admin-tabs button i {
+        margin-right: 4px;
+    }
+    .admin-card {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .admin-card .actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+    .admin-card .actions button {
+        font-size: 12px;
+        padding: 6px 14px;
+        min-width: 60px;
+    }
+}

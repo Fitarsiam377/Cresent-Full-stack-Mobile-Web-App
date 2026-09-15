@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crescent+ | AI Trained Blood Companion</title>
+    <link rel="preconnect" href="https://www.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    
+    <!-- Favicon & Apple Touch Icon - crescentlogo.png ব্যবহার -->
+    <link rel="icon" href="assets/crescentlogo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="assets/crescentlogo.png" />
+    
+    <!-- Theme Color (Splash Screen) -->
+    <meta name="theme-color" content="#2c3e50" />
+    
+    <link rel="stylesheet" href="css/intro.css" />
+</head>
+<body>
+    <div class="intro-container">
+        <!-- Logo Image - crescentlogo.png ব্যবহার -->
+        <img
+            src="assets/crescentlogobgless.png"
+            alt="Crescent+ Logo"
+            width="250"
+            height="250"
+            style="border-radius: 50px; object-fit:contain; margin-bottom:10px;"
+        />
+
+        <div class="logo-placeholder">
+            <div class="logo-text">Crescent<span class="plus">+</span></div>
+            <p class="tagline">Your AI Trained Blood Companion</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="intro-content" style="margin-top: -40px;">
+            <h1 class="main-title">Donate Blood<br />Save a Life</h1>
+            <p class="sub-text">Find blood donors in emergency<br />or become a donor yourself</p>
+        </div>
+
+        <!-- Get Started Button -->
+        <button 
+            onclick="window.location.href='login.html'" 
+            class="get-started-btn"
+            style="margin-top: 10px; position: relative; top: -100px;"
+        >
+            Get Started
+        </button>
+
+        <!-- Animated Dots -->
+        <div class="dot-indicators" style="position: relative; top: -70px;">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </div>
+
+    <script defer src="js/scale.js"></script>
+    
+    <!-- ✅ একটিই স্ক্রিপ্ট ব্লক – সব কাজ এখানে -->
+    <script>
+        // ১. সুপার ফাস্ট ব্লিঙ্কিং ডটস
+        setInterval(() => {
+            const dots = document.querySelectorAll('.dot');
+            const activeIndex = Array.from(dots).findIndex(dot => dot.classList.contains('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            const nextIndex = (activeIndex + 1) % dots.length;
+            dots[nextIndex].classList.add('active');
+        }, 150);
+
+        // ২. Service Worker রেজিস্টার (PWA)
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/sw.js')
+                .then(() => console.log('✅ Service Worker registered'))
+                .catch(err => console.warn('SW registration failed:', err));
+        }
+    </script>
+</body>
+</html>

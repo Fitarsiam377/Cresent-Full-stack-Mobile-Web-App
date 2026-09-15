@@ -1,0 +1,275 @@
+
+/* ============================================
+   ADMIN SUPPORT PAGE - CRESCENT+
+   মোবাইল-ফার্স্ট ডিজাইন
+   ============================================ */
+
+/* পেজের ব্যাকগ্রাউন্ড অফ-হোয়াইট (লগইন পেজের মতো) */
+body {
+    background: #faf8f6;
+    margin: 0;
+    padding: 20px 10px;
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* কন্টেইনার - ডেস্কটপে সাদা, মোবাইলে অফ-হোয়াইট */
+.admin-support-container {
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 16px;
+    background: #ffffff;
+    border-radius: 28px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    box-sizing: border-box;
+}
+
+/* ===== হেডার ===== */
+.admin-support-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #eee;
+    flex-wrap: wrap;
+}
+
+.admin-support-header .back-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #2c3e50;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 30px;
+    transition: 0.2s;
+}
+.admin-support-header .back-btn:hover {
+    background: #f0f0f0;
+}
+
+.admin-support-header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: #2c3e50;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.admin-support-header h2 i {
+    font-size: 18px;
+}
+
+.ticket-count {
+    background: #2c3e50;
+    color: white;
+    padding: 0 12px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 28px;
+    min-width: 28px;
+    text-align: center;
+}
+
+/* ===== টিকিট কার্ড ===== */
+.ticket-card {
+    background: #faf8f6;
+    padding: 14px 16px;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    border-left: 4px solid #3498db;
+    transition: 0.2s;
+}
+.ticket-card:hover {
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.ticket-card .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.ticket-card .subject {
+    font-weight: 700;
+    color: #2c3e50;
+    font-size: 15px;
+    word-break: break-word;
+}
+
+.ticket-card .status {
+    font-size: 11px;
+    padding: 2px 12px;
+    border-radius: 30px;
+    font-weight: 600;
+    text-transform: capitalize;
+    white-space: nowrap;
+}
+.status-pending { background: #f39c12; color: white; }
+.status-resolved { background: #27ae60; color: white; }
+
+.ticket-card .meta {
+    font-size: 13px;
+    color: #888;
+    margin-top: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 8px;
+}
+.ticket-card .meta .type-badge {
+    background: #eef;
+    padding: 0 10px;
+    border-radius: 30px;
+    font-size: 11px;
+    line-height: 22px;
+    display: inline-block;
+}
+
+.ticket-card .message {
+    margin-top: 8px;
+    color: #555;
+    font-size: 14px;
+    word-wrap: break-word;
+}
+
+/* ===== অ্যাকশন বাটন ===== */
+.ticket-card .actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+.btn-resolve {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 4px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-resolve:hover { background: #1e8449; }
+
+.btn-delete {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 4px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-delete:hover { background: #c0392b; }
+
+.resolved-label {
+    color: #27ae60;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* ===== খালি অবস্থা ===== */
+.no-tickets {
+    text-align: center;
+    color: #999;
+    padding: 30px 0;
+}
+.no-tickets i {
+    font-size: 32px;
+    display: block;
+    margin-bottom: 10px;
+    color: #ddd;
+}
+
+/* ============================================
+   মোবাইল-ফার্স্ট (যেকোনো স্ক্রিনের জন্য)
+   ============================================ */
+
+/* ৪৮০px এর নিচে – মোবাইল ফোন */
+@media (max-width: 480px) {
+    body {
+        padding: 10px 8px;
+        background: #ffffff;          /* পুরো পেজ সাদা */
+    }
+    .admin-support-container {
+        padding: 16px 12px;
+        border-radius: 20px;
+        background: #faf8f6;          /* কন্টেইনার অফ-হোয়াইট */
+        box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+        margin: 0;
+    }
+    .admin-support-header {
+        gap: 6px;
+        padding-bottom: 10px;
+    }
+    .admin-support-header .back-btn {
+        font-size: 18px;
+        padding: 2px 6px;
+    }
+    .admin-support-header h2 {
+        font-size: 16px;
+    }
+    .admin-support-header h2 i {
+        font-size: 16px;
+    }
+    .ticket-count {
+        font-size: 12px;
+        line-height: 24px;
+        min-width: 24px;
+        padding: 0 10px;
+    }
+    .ticket-card {
+        padding: 12px 14px;
+        border-left-width: 3px;
+    }
+    .ticket-card .header {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+    }
+    .ticket-card .subject {
+        font-size: 14px;
+    }
+    .ticket-card .status {
+        align-self: flex-start;
+        font-size: 10px;
+        padding: 1px 10px;
+    }
+    .ticket-card .meta {
+        font-size: 12px;
+        gap: 2px 6px;
+    }
+    .ticket-card .meta .type-badge {
+        font-size: 10px;
+        line-height: 20px;
+        padding: 0 8px;
+    }
+    .ticket-card .message {
+        font-size: 13px;
+    }
+    .btn-resolve,
+    .btn-delete {
+        font-size: 12px;
+        padding: 3px 14px;
+    }
+    .no-tickets {
+        padding: 20px 0;
+    }
+    .no-tickets i {
+        font-size: 24px;
+    }
+}

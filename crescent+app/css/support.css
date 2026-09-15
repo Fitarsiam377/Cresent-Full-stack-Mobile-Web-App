@@ -1,0 +1,436 @@
+/* ============================================
+   SUPPORT PAGE - CRESCENT+
+   অফ-হোয়াইট ব্যাকগ্রাউন্ড + সাদা কন্টেইনার
+   ============================================ */
+
+/* 🌐 পেজের ব্যাকগ্রাউন্ড অফ-হোয়াইট */
+body {
+    background: #faf8f6;
+    margin: 0;
+    padding: 20px 0;
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 📦 কন্টেইনার - সাদা */
+.support-container {
+    max-width: 480px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 24px 20px;
+    background: #ffffff;
+    border-radius: 28px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+    box-sizing: border-box;
+}
+
+/* ===== মোবাইল ভিউ ===== */
+@media (max-width: 480px) {
+    body {
+        padding: 12px 10px;
+        background: #faf8f6;     /* অফ-হোয়াইট ই থাকবে */
+    }
+    .support-container {
+        padding: 18px 14px;
+        border-radius: 20px;
+        background: #ffffff;     /* সাদা ই থাকবে */
+        box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+    }
+}
+
+/* ===== বাকি স্টাইল (আগের মতো) ===== */
+.support-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #eee;
+}
+
+.support-header .back-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #2c3e50;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 30px;
+    transition: 0.2s;
+}
+.support-header .back-btn:hover {
+    background: #f0f0f0;
+}
+
+.support-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #2c3e50;
+    flex: 1;
+}
+
+.support-form .form-group {
+    margin-bottom: 16px;
+}
+
+.support-form label {
+    display: block;
+    font-weight: 600;
+    font-size: 14px;
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.support-form input,
+.support-form textarea,
+.support-form select {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    font-size: 15px;
+    font-family: inherit;
+    transition: 0.2s;
+    box-sizing: border-box;
+    background: #fafaf9;
+}
+
+.support-form input:focus,
+.support-form textarea:focus,
+.support-form select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52,152,219,0.1);
+    background: #ffffff;
+}
+
+.support-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(135deg, #2c3e50, #1a252f);
+    color: white;
+    border: none;
+    border-radius: 30px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.submit-btn:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 20px rgba(44,62,80,0.25);
+}
+.submit-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.success-msg {
+    background: #d4edda;
+    color: #155724;
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-top: 16px;
+    display: none;
+}
+.error-msg {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 14px 16px;
+    border-radius: 12px;
+    margin-top: 16px;
+    display: none;
+}
+
+.spam-box {
+    background: #fff8e1;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 20px;
+    border-left: 4px solid #f39c12;
+}
+
+.api-info {
+    background: #eafaf1;
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+    border-left: 3px solid #27ae60;
+}
+
+.hint {
+    font-size: 12px;
+    color: #999;
+    margin-top: 4px;
+}
+/* ========================================
+   RESET & BASE
+   ======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background-color: #f5f0eb;
+    margin: 0;
+    padding: 16px;
+}
+
+/* ========================================
+   ADMIN SUPPORT CONTAINER
+   (intro-container-এর মতো)
+   ======================================== */
+.admin-support-container {
+    max-width: 480px;
+    width: 100%;
+    background-color: #faf8f6;
+    border-radius: 28px;
+    padding: 40px 24px 32px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    min-height: 90vh;
+    min-height: 90dvh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+}
+
+/* ========================================
+   HEADER
+   ======================================== */
+.admin-support-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 2px solid #eee;
+    flex-shrink: 0;
+}
+
+.admin-support-header .back-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    color: #2c3e50;
+    cursor: pointer;
+    padding: 4px 10px;
+    border-radius: 30px;
+    transition: 0.2s;
+}
+.admin-support-header .back-btn:hover {
+    background: #f0f0f0;
+}
+
+.admin-support-header h2 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    color: #2c3e50;
+    flex: 1;
+}
+
+.ticket-count {
+    background: #2c3e50;
+    color: white;
+    padding: 2px 14px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* ========================================
+   TICKET LIST (flexible area)
+   ======================================== */
+#ticketList {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+/* ========================================
+   TICKET CARD
+   ======================================== */
+.ticket-card {
+    background: #ffffff;
+    padding: 16px 18px;
+    border-radius: 16px;
+    margin-bottom: 12px;
+    border-left: 4px solid #3498db;
+    transition: 0.2s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+}
+.ticket-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+}
+
+.ticket-card .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.ticket-card .subject {
+    font-weight: 700;
+    color: #2c3e50;
+    font-size: 15px;
+}
+
+.ticket-card .status {
+    font-size: 12px;
+    padding: 4px 14px;
+    border-radius: 30px;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+.status-pending { background: #f39c12; color: white; }
+.status-resolved { background: #27ae60; color: white; }
+
+.ticket-card .meta {
+    font-size: 13px;
+    color: #888;
+    margin-top: 6px;
+}
+.ticket-card .meta .type-badge {
+    background: #eef;
+    padding: 2px 10px;
+    border-radius: 30px;
+    font-size: 12px;
+    margin-left: 6px;
+    display: inline-block;
+}
+
+.ticket-card .message {
+    margin-top: 8px;
+    color: #555;
+    font-size: 14px;
+    word-wrap: break-word;
+}
+
+/* ========================================
+   ACTIONS
+   ======================================== */
+.ticket-card .actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+.btn-resolve {
+    background: #27ae60;
+    color: white;
+    border: none;
+    padding: 6px 18px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-resolve:hover { background: #1e8449; }
+
+.btn-delete {
+    background: #e74c3c;
+    color: white;
+    border: none;
+    padding: 6px 18px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-delete:hover { background: #c0392b; }
+
+.resolved-label {
+    color: #27ae60;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+/* ========================================
+   EMPTY STATE
+   ======================================== */
+.no-tickets {
+    text-align: center;
+    color: #999;
+    padding: 40px 0;
+}
+.no-tickets i {
+    font-size: 36px;
+    display: block;
+    margin-bottom: 12px;
+    color: #ddd;
+}
+
+/* ========================================
+   MOBILE COMPACT (intro.css-এর মতো)
+   ======================================== */
+html.is-compact {
+    overflow-x: hidden;
+}
+
+html.is-compact body {
+    padding: 0;
+    margin: 0;
+    background-color: #faf8f6;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    overflow-x: hidden;
+}
+
+html.is-compact .admin-support-container {
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 20px 16px 24px;
+}
+
+/* ========================================
+   NO-JS FALLBACK (intro.css-এর মতো)
+   ======================================== */
+@media (max-width: 480px) {
+    html:not(.is-compact) body {
+        padding: 10px;
+    }
+    html:not(.is-compact) .admin-support-container {
+        width: 100%;
+        max-width: 100%;
+        min-height: 95vh;
+        min-height: 95dvh;
+        border-radius: 20px;
+        padding: 24px 16px 20px;
+    }
+}
+
+@media (max-height: 700px) {
+    .admin-support-container {
+        min-height: auto;
+        padding: 20px 16px;
+    }
+    html:not(.is-compact) body {
+        align-items: flex-start;
+    }
+}
