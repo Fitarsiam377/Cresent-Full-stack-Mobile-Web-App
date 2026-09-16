@@ -1,6 +1,6 @@
 // ============================================
 // DELIVERY SYSTEM - LEAFLET + NOMINATIM + HAVERSINE
-// কোনো ব্যাকএন্ড/API Key লাগে না – সব হোস্টিং-এ কাজ করে
+// Recipient box with auto-filled data
 // ============================================
 
 let deliveryMap = null;
@@ -26,10 +26,13 @@ function openDeliveryModal(requestId, donorId, donorName, donorPhone, donorAddre
     
     firebase.firestore().collection('users').doc(user.uid).get()
         .then((doc) => {
-            const userData = doc.data();
+            const userData = doc.data() || {};
             const userName = userData.name || 'User';
-            const userAddress = userData.location ? `${userData.location.city}, ${userData.location.area}` : 'Not set';
-            const userPhone = userData.phone || 'N/A';
+            const userPhone = userData.phone || '';
+            const userBloodGroup = userData.bloodGroup || 'N/A';
+            const userAddress = userData.location 
+                ? `${userData.location.city}, ${userData.location.area}` 
+                : '';
             
             content.innerHTML = `
                 <div class="delivery-modal-header">
@@ -37,7 +40,11 @@ function openDeliveryModal(requestId, donorId, donorName, donorPhone, donorAddre
                     <button class="modal-close-btn" onclick="closeDeliveryModal()">&times;</button>
                 </div>
                 <div class="delivery-modal-body">
+                    
+                    <!-- ===== DONOR + RECIPIENT INFO ===== -->
                     <div class="delivery-info-grid">
+                        
+                        <!-- DONOR (Read-only) -->
                         <div class="delivery-info-card">
                             <h4>🩸 Donor</h4>
                             <p><strong>Name:</strong> ${donorName}</p>
@@ -45,14 +52,55 @@ function openDeliveryModal(requestId, donorId, donorName, donorPhone, donorAddre
                             <p><strong>Address:</strong> <span id="donorAddressDisplay">${donorAddress || 'Enter below'}</span></p>
                             <p><strong>Blood Group:</strong> ${bloodGroup}</p>
                         </div>
-                        <div class="delivery-info-card">
+                        
+                        <!-- RECIPIENT (Editable Name/Phone, Auto Address/Blood) -->
+                        <div class="delivery-info-card" style="background:#eef7ff; border:1.5px solid #3498db;">
                             <h4>👤 Recipient</h4>
-                            <p><strong>Name:</strong> ${userName}</p>
-                            <p><strong>Phone:</strong> ${userPhone}</p>
-                            <p><strong>Address:</strong> <span id="userAddressDisplay">${userAddress}</span></p>
+                            
+                            <div class="form-group" style="margin-bottom:6px;">
+                                <label style="font-size:11px; color:#555; font-weight:600; display:block; margin-bottom:2px;">Name</label>
+                                <input 
+                                    type="text" 
+                                    id="recipientName" 
+                                    value="${userName}" 
+                                    placeholder="Recipient name"
+                                    style="
+                                        width:100%; padding:5px 8px;
+                                        border:1px solid #b8d8f0; border-radius:5px;
+                                        font-size:12px; box-sizing:border-box;
+                                        background:white; color:#2c3e50;
+                                    "
+                                />
+                            </div>
+                            
+                            <div class="form-group" style="margin-bottom:6px;">
+                                <label style="font-size:11px; color:#555; font-weight:600; display:block; margin-bottom:2px;">Phone</label>
+                                <input 
+                                    type="tel" 
+                                    id="recipientPhone" 
+                                    value="${userPhone}" 
+                                    placeholder="01XXXXXXXXX"
+                                    style="
+                                        width:100%; padding:5px 8px;
+                                        border:1px solid #b8d8f0; border-radius:5px;
+                                        font-size:12px; box-sizing:border-box;
+                                        background:white; color:#2c3e50;
+                                    "
+                                />
+                            </div>
+                            
+                            <p style="margin:4px 0; font-size:12px;">
+                                <strong>Address:</strong> 
+                                <span id="recipientAddressDisplay" style="color:#3498db;">${userAddress || 'Set via map below'}</span>
+                            </p>
+                            <p style="margin:4px 0; font-size:12px;">
+                                <strong>Blood Group:</strong> 
+                                <span style="color:#c0392b; font-weight:700;">${userBloodGroup}</span>
+                            </p>
                         </div>
                     </div>
                     
+                    <!-- ===== LOCATION & DISTANCE ===== -->
                     <div class="delivery-location-section">
                         <h4>📍 Location & Distance</h4>
                         <div class="delivery-location-inputs">
@@ -74,6 +122,7 @@ function openDeliveryModal(requestId, donorId, donorName, donorPhone, donorAddre
                         <div id="deliveryMap" style="height:250px; width:100%; margin-top:10px; border-radius:12px; background:#e8e4e0;"></div>
                     </div>
                     
+                    <!-- ===== PAYMENT ===== -->
                     <div class="delivery-payment-section">
                         <h4>💳 Payment Method</h4>
                         <div class="payment-options">
@@ -96,6 +145,7 @@ function openDeliveryModal(requestId, donorId, donorName, donorPhone, donorAddre
                         </div>
                     </div>
                     
+                    <!-- ===== ACTIONS ===== -->
                     <div class="delivery-actions">
                         <button class="btn-primary" onclick="submitDeliveryRequest('${requestId}', '${donorId}')">
                             <i class="fas fa-paper-plane"></i> Request Delivery
@@ -106,8 +156,12 @@ function openDeliveryModal(requestId, donorId, donorName, donorPhone, donorAddre
             `;
             
             modal.style.display = 'flex';
-            initDeliveryMap(donorAddress, userAddress);
             
+            setTimeout(() => {
+                initDeliveryMap(donorAddress, userAddress);
+            }, 100);
+            
+            // Payment method toggle
             document.querySelectorAll('input[name="paymentMethod"]').forEach(radio => {
                 radio.addEventListener('change', function() {
                     document.getElementById('paymentNumberField').style.display = 
@@ -115,8 +169,9 @@ function openDeliveryModal(requestId, donorId, donorName, donorPhone, donorAddre
                 });
             });
             
+            // Autocomplete setup
             setupAutocomplete('deliveryPickup', 'donorAddressDisplay');
-            setupAutocomplete('deliveryDropoff', 'userAddressDisplay');
+            setupAutocomplete('deliveryDropoff', 'recipientAddressDisplay');
         })
         .catch(err => {
             console.error('Error:', err);
@@ -166,21 +221,22 @@ function initDeliveryMap(donorAddress, userAddress) {
     }
     if (userAddress) {
         document.getElementById('deliveryDropoff').value = userAddress;
-        document.getElementById('userAddressDisplay').textContent = userAddress;
+        document.getElementById('recipientAddressDisplay').textContent = userAddress;
     }
     
     setTimeout(() => {
         if (document.getElementById('deliveryPickup').value.trim() && document.getElementById('deliveryDropoff').value.trim()) {
             manualCalculateRoute();
         }
-    }, 1000);
+    }, 500);
 }
 
 // =============================================
-// AUTOCOMPLETE - সরাসরি Nominatim (CORS-মুক্ত, কোনো API Key লাগে না)
+// AUTOCOMPLETE - Nominatim
 // =============================================
 function setupAutocomplete(inputId, displayId) {
     const input = document.getElementById(inputId);
+    if (!input) return;
     let timeout = null;
     
     input.addEventListener('input', function() {
@@ -215,6 +271,16 @@ function setupAutocomplete(inputId, displayId) {
             .catch(err => console.warn('Nominatim autocomplete error:', err));
         }, 500);
     });
+    
+    // Update recipient address display when dropoff changes
+    if (inputId === 'deliveryDropoff') {
+        input.addEventListener('change', function() {
+            const display = document.getElementById(displayId);
+            if (display && this.value.trim()) {
+                display.textContent = this.value.trim();
+            }
+        });
+    }
 }
 
 // =============================================
@@ -226,7 +292,7 @@ function autoCalculateRoute() {
 }
 
 // =============================================
-// MANUAL CALCULATE - শুধু Nominatim + Haversine (সব হোস্টিং-এ কাজ করে)
+// MANUAL CALCULATE
 // =============================================
 function manualCalculateRoute() {
     const pickup = document.getElementById('deliveryPickup').value.trim();
@@ -234,6 +300,12 @@ function manualCalculateRoute() {
     
     const distDisplay = document.getElementById('deliveryDistanceDisplay');
     const costDisplay = document.getElementById('deliveryCostDisplay');
+    
+    // Update recipient address display
+    const recipientDisplay = document.getElementById('recipientAddressDisplay');
+    if (recipientDisplay && dropoff) {
+        recipientDisplay.textContent = dropoff;
+    }
     
     if (!pickup || !dropoff) {
         distDisplay.textContent = '0 km';
@@ -253,7 +325,6 @@ function manualCalculateRoute() {
         return;
     }
     
-    // Nominatim দিয়ে জিওকোড (সরাসরি)
     Promise.all([
         fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(pickup)}&limit=1`, {
             headers: { 'User-Agent': 'CrescentPlusApp/1.0' }
@@ -288,7 +359,6 @@ function manualCalculateRoute() {
         deliveryDistance = 0;
         deliveryTravelCost = 0;
         clearMapLayers();
-        alert('দূরত্ব নির্ণয় সম্ভব হয়নি। ঠিকানা চেক করে আবার চেষ্টা করুন।');
     });
 }
 
@@ -307,7 +377,7 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
 }
 
 // =============================================
-// DRAW STRAIGHT LINE (সরলরেখা)
+// DRAW STRAIGHT LINE
 // =============================================
 function drawStraightLine(lat1, lon1, lat2, lon2) {
     if (!deliveryMap) return;
@@ -345,6 +415,14 @@ function submitDeliveryRequest(requestId, donorId) {
     const user = firebase.auth().currentUser;
     if (!user) { alert('Please login.'); return; }
     
+    const recipientName = document.getElementById('recipientName').value.trim();
+    const recipientPhone = document.getElementById('recipientPhone').value.trim();
+    const recipientAddress = document.getElementById('deliveryDropoff').value.trim();
+    const recipientBloodGroup = document.getElementById('recipientAddressDisplay')?.dataset?.blood || 'N/A';
+    
+    if (!recipientName) { alert('Please enter recipient name.'); return; }
+    if (!recipientPhone) { alert('Please enter recipient phone.'); return; }
+    
     const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
     if (!paymentMethod) { alert('Select payment method.'); return; }
     
@@ -358,22 +436,39 @@ function submitDeliveryRequest(requestId, donorId) {
     const dropoff = document.getElementById('deliveryDropoff').value.trim();
     if (!pickup || !dropoff) { alert('Enter both addresses.'); return; }
     
+    if (deliveryDistance === 0) {
+        alert('Please wait for distance calculation or enter different addresses.');
+        return;
+    }
+    
     firebase.firestore().collection('users').doc(user.uid).get()
-        .then((doc) => {
-            const userData = doc.data();
+        .then((userDoc) => {
+            const userData = userDoc.data() || {};
+            const userBloodGroup = userData.bloodGroup || 'N/A';
+            
             return firebase.firestore().collection('users').doc(donorId).get()
                 .then((donorDoc) => {
-                    const donorData = donorDoc.data();
+                    const donorData = donorDoc.data() || {};
                     return firebase.firestore().collection('deliveryRequests').add({
-                        requestId, donorId,
+                        requestId: requestId,
+                        donorId: donorId,
+                        
+                        // Donor info
                         donorName: donorData.name || 'Unknown',
                         donorPhone: donorData.phone || 'N/A',
                         donorAddress: pickup,
+                        donorProfilePic: donorData.profilePic || null,
+                        donorBloodGroup: donorData.bloodGroup || 'N/A',
+                        
+                        // Recipient info (from editable form)
                         userId: user.uid,
-                        userName: userData.name || 'User',
-                        userPhone: userData.phone || 'N/A',
+                        userName: recipientName,
+                        userPhone: recipientPhone,
                         userAddress: dropoff,
-                        bloodGroup: donorData.bloodGroup || 'N/A',
+                        userProfilePic: userData.profilePic || null,
+                        bloodGroup: userBloodGroup,
+                        
+                        // Delivery details
                         travelCost: deliveryTravelCost,
                         distance: deliveryDistance,
                         paymentMethod: paymentMethod.value,
@@ -425,11 +520,12 @@ function printDeliveryCard(deliveryId) {
                         <div class="row"><span class="label">Donor</span><span class="value">${data.donorName}</span></div>
                         <div class="row"><span class="label">Phone</span><span class="value">${data.donorPhone}</span></div>
                         <div class="row"><span class="label">Address</span><span class="value">${data.donorAddress}</span></div>
-                        <div class="row"><span class="label">Blood</span><span class="value">${data.bloodGroup}</span></div>
+                        <div class="row"><span class="label">Blood</span><span class="value">${data.donorBloodGroup || data.bloodGroup || 'N/A'}</span></div>
                         <div style="height:8px;"></div>
                         <div class="row"><span class="label">Recipient</span><span class="value">${data.userName}</span></div>
                         <div class="row"><span class="label">Phone</span><span class="value">${data.userPhone}</span></div>
                         <div class="row"><span class="label">Address</span><span class="value">${data.userAddress}</span></div>
+                        <div class="row"><span class="label">Blood</span><span class="value">${data.bloodGroup || 'N/A'}</span></div>
                         <div style="height:8px;"></div>
                         <div class="row"><span class="label">Distance</span><span class="value">${data.distance} km</span></div>
                         <div class="row"><span class="label">Travel Cost</span><span class="value">${data.travelCost} BDT</span></div>
